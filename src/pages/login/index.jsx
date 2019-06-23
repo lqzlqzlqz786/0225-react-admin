@@ -1,5 +1,5 @@
 
-import React, { Component } from 'react';
+import React from 'react';
 import { Form, Icon, Input, Button  } from 'antd';
 import { reqLogin } from "../../api";
 
@@ -9,13 +9,13 @@ import './index.less'
 
 const Item = Form.Item;
 
-class Login extends  Component {
+function Login(props) {
 
 
-  login = (e) => {
+  const login = (e) => {
     e.preventDefault();
     //用来校验表单并获取表单的值
-    this.props.form.validateFields(async (error, values) => {
+    props.form.validateFields(async (error, values) => {
       // console.log(error,values);
       /*
       * error 代表表单验证结果
@@ -30,10 +30,10 @@ class Login extends  Component {
 
         if (result) {
           //登录成功
-          this.props.history.replace('/');
+          props.history.replace('/');
         } else {
           //登录失败
-          this.props.form.resetFields(['password'])
+          props.form.resetFields(['password'])
         }
 
       } else {
@@ -46,7 +46,7 @@ class Login extends  Component {
   };
 
   //自定义校验规则函数
-  validator = (rule, value, callback) => {
+  const validator = (rule, value, callback) => {
     //callback 必须调用
     // console.log(rule, value);
     const name = rule.fullField === 'username' ? '用户名': '密码';
@@ -67,9 +67,9 @@ class Login extends  Component {
 
   };
 
-  render() {
+
     //getFieldDecorator 也是一个高阶组件
-    const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator } = props.form;
 
     return <div className="login">
       <header className="login-header">
@@ -78,7 +78,7 @@ class Login extends  Component {
       </header>
       <section className="login-content">
         <h2>用户登录</h2>
-        <Form onSubmit={this.login} className="login-form">
+        <Form onSubmit={login} className="login-form">
           <Item>
             {
               getFieldDecorator(
@@ -90,7 +90,7 @@ class Login extends  Component {
                     {max: 15, message: '用户名必须小于15位'},
                     {pattern: /^[a-zA-Z_0-9]+$/,message: '用户名只能包含英文字母、数字和下划线'}*/
                   {   //自定义校验
-                      validator: this.validator
+                      validator: validator
                     }
                     ]
                  }
@@ -106,7 +106,7 @@ class Login extends  Component {
                 {
                   rules: [
                     {
-                      validator: this.validator
+                      validator: validator
                     }
                   ]
             })(
@@ -120,7 +120,7 @@ class Login extends  Component {
         </Form>
       </section>
     </div>
-  }
+
 
 }
 

@@ -32,7 +32,6 @@ export default function ajax(url, data = {}, method = 'get') {
 
       message.error('网络出现故障，刷新试试',2);
 
-
     });
 
 
